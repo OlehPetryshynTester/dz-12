@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Person unit tests">
+    <parameter name="firstNameWoman" value="Jane"/>
+    <parameter name="firstNameMan" value="John"/>
+    <parameter name="lastNameWoman" value="Doe"/>
+    <parameter name="lastNameMan" value="Jonson"/>
+    <parameter name="ageWoman" value= "60"/>
+    <parameter name="ageMan" value= "65"/>
+    <test name="Class run tests">
+        <classes>
+            <class name="people.TestMan">
+                <methods>
+                <include name="testGetFirstName"/>
+                <include name="testGetLastName"/>
+                <include name="testGetAge"/>
+                <include name="testSetFirstName"/>
+                <include name="testSetLastName"/>
+                <include name="testSetAge"/>
+                </methods>
+            </class>
+            <class name="people.TestWoman">
+                <methods>
+                    <include name="testGetFirstName"/>
+                    <include name="testGetLastName"/>
+                    <include name="testGetAge"/>
+                    <include name="testSetFirstName"/>
+                    <include name="testSetLastName"/>
+                    <include name="testSetAge"/>
+                </methods>
+            </class>
+
+        </classes>
+    </test>
+</suite>
