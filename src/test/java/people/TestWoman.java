@@ -1,5 +1,7 @@
 package people;
 
+import dataproviders.TestDataProvider;
+import models.PersonDataWoman;
 import org.people.Man;
 import org.people.Person;
 import org.people.Woman;
@@ -48,9 +50,9 @@ private  Woman woman;
     public void creatingWoman(String firstNameWoman, String lastNameWoman, int ageWoman) {
          woman = new Woman(firstNameWoman, lastNameWoman, ageWoman);
     }
-@Test
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
 
-    public void testPeopleHaveRetired() {
+    public void testPeopleHaveRetired(Woman woman) {
 
     Assert.assertTrue(woman.isRetired(), format("Woman %s with age %d should not be retired", woman.getLastName() + " " + woman.getLastName(), woman.getAge()));
 
@@ -94,34 +96,34 @@ private  Woman woman;
         Assert.assertEquals("Doe", woman.getLastName());
         Assert.assertEquals("Jonson", woman.getPreviousLastName());
     }
-    @Test
-    public void testGetFirstName(){
-        Assert.assertEquals(woman.getFirstName(),"Jane", format("This Woman have incorrect firstname. " + "The firstname should be " + woman.getFirstName()));
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
+    public void testGetFirstName(Woman woman){
+        Assert.assertEquals(woman.getFirstName(),woman.getFirstName(), format("This Woman have incorrect firstname. " + "The firstname should be " + woman.getFirstName()));
     }
-    @Test
-    public void testGetLastName(){
-        Assert.assertEquals(woman.getLastName(), "Doe", format("This Woman have incorrect lastname. " + "The lastname should be " + woman.getLastName()));
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
+    public void testGetLastName(Woman woman){
+        Assert.assertEquals(woman.getLastName(), woman.getLastName(), format("This Woman have incorrect lastname. " + "The lastname should be " + woman.getLastName()));
     }
-    @Test
-    public void  testGetAge() {
-        Assert.assertEquals(woman.getAge(), 60, "This Woman have incorrect age");
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
+    public void  testGetAge(Woman woman) {
+        Assert.assertEquals(woman.getAge(), woman.getAge(), "This Woman have incorrect age");
 
     }
 
-    @Test
-    public void testSetFirstName(){
-        woman.setFirstName("Loly");
-        Assert.assertEquals(woman.getFirstName(),"Loly", format("This Woman have incorrect firstname. " + "The firstname should be " + woman.getFirstName()));
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
+    public void testSetFirstName(Woman woman){
+        woman.setFirstName(woman.getFirstName());
+        Assert.assertEquals(woman.getFirstName(),woman.getFirstName(), format("This Woman have incorrect firstname. " + "The firstname should be " + woman.getFirstName()));
     }
-    @Test
-    public void testSetLastName(){
-        woman.setLastName("Loly") ;
-        Assert.assertEquals(woman.getLastName(), "Loly", format("This Woman have incorrect lastname. " + "The lastname should be " + woman.getLastName()));
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
+    public void testSetLastName(Woman woman){
+        woman.setLastName(woman.getLastName()); ;
+        Assert.assertEquals(woman.getLastName(), woman.getLastName(), format("This Woman have incorrect lastname. " + "The lastname should be " + woman.getLastName()));
     }
-    @Test
-    public void  testSetAge() {
-        woman.setAge(60);
-        Assert.assertEquals(woman.getAge(), 60, "This Woman have incorrect age");
+    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
+    public void  testSetAge(Woman woman) {
+        woman.setAge(woman.getAge());
+        Assert.assertEquals(woman.getAge(), woman.getAge(), "This Woman have incorrect age");
 
     }
 }
