@@ -1,7 +1,6 @@
 package people;
 
 import dataproviders.TestDataProvider;
-import models.PersonDataWoman;
 import org.people.Man;
 import org.people.Person;
 import org.people.Woman;
@@ -9,33 +8,17 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.util.Random;
 
 import static java.lang.String.format;
 
 
 public class TestWoman {
+    Person partner = new Man("John" , "Jonson" , 65);
 
-    private static class TestPerson extends Person {
-        public TestPerson(String firstName, String lastName, int age) {
-            super(firstName, lastName, age);
-        }
 
-        @Override
-        public boolean isRetired() {
-            return false;
-        }
-
-        @Override
-        public void registerPartnership(Person partner) {
-
-        }
-
-        @Override
-        public void deregisterPartnership(boolean revertLastName) {
-
-        }
-
-    }
 
 
 private  Woman woman;
@@ -60,70 +43,72 @@ private  Woman woman;
 
 
     @Test
-    @Parameters({
-            "firstNameMan",
-            "lastNameMan",
-            "ageMan"
-    })
-    public void testRegisterPartnership(String firstNameMan , String lasNameMan , int ageMan) {
+
+    public void testRegisterPartnership() {
+        SoftAssert softAssert = new SoftAssert();
         woman.setLastName(woman.getLastName());
         woman.setFirstName(woman.getFirstName());
 
-        TestPerson partner = new TestPerson(firstNameMan, lasNameMan, ageMan);
+
         partner.setLastName("Smith");
         partner.setFirstName("John");
 
         woman.registerPartnership(partner);
 
-        Assert.assertEquals(partner, woman.getPartner());
-        Assert.assertEquals(partner.getLastName(), woman.getLastName());
-        Assert.assertEquals("Doe", woman.getPreviousLastName());
+        softAssert.assertEquals(partner, woman.getPartner());
+        softAssert.assertEquals(partner.getLastName(), woman.getLastName());
+        softAssert.assertEquals("Doe", woman.getPreviousLastName());
+        softAssert.assertAll();
     }
     @Test
-    @Parameters({
-            "firstNameMan",
-            "lastNameMan",
-            "ageMan"
-    })
-    public void testDeregisterPartnership_revertLastName(String firstNameMan , String lasNameMan , int ageMan) {
 
-        Man man = new Man(firstNameMan, lasNameMan ,ageMan);
-        woman.registerPartnership(man);
+    public void testDeregisterPartnershipRevertLastName() {
+        SoftAssert softAssert = new SoftAssert();
+
+        woman.registerPartnership(partner);
 
         woman.deregisterPartnership(true);
 
-        Assert.assertNull(woman.getPartner());
-        Assert.assertEquals("Doe", woman.getLastName());
-        Assert.assertEquals("Jonson", woman.getPreviousLastName());
+        softAssert.assertNull(woman.getPartner());
+        softAssert.assertEquals("Doe", woman.getLastName());
+        softAssert.assertEquals("Jonson", woman.getPreviousLastName());
+        softAssert.assertAll();
     }
-    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
-    public void testGetFirstName(Woman woman){
-        Assert.assertEquals(woman.getFirstName(),woman.getFirstName(), format("This Woman have incorrect firstname. " + "The firstname should be " + woman.getFirstName()));
+    @Test (dataProvider = "womanDataProviderFirstName", dataProviderClass = TestDataProvider.class)
+    public void testGetFirstName(Woman woman, String expectedFirstName){
+        Assert.assertEquals(woman.getFirstName(),expectedFirstName, format("This Woman have incorrect firstname. " + "The firstname should be " + expectedFirstName));
     }
-    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
-    public void testGetLastName(Woman woman){
-        Assert.assertEquals(woman.getLastName(), woman.getLastName(), format("This Woman have incorrect lastname. " + "The lastname should be " + woman.getLastName()));
+    @Test (dataProvider = "womanDataProviderLastName", dataProviderClass = TestDataProvider.class)
+    public void testGetLastName(Woman woman, String expectedLastName){
+        Assert.assertEquals(woman.getLastName(),  expectedLastName, format("This Woman have incorrect lastname. " + "The lastname should be " + expectedLastName));
     }
-    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
-    public void  testGetAge(Woman woman) {
-        Assert.assertEquals(woman.getAge(), woman.getAge(), "This Woman have incorrect age");
+    @Test (dataProvider = "womanDataProviderAge",dataProviderClass = TestDataProvider.class)
+    public void  testGetAge(Woman woman ,int expectedAge) {
+        Assert.assertEquals(woman.getAge(), expectedAge, "This Woman have incorrect age" + expectedAge);
 
     }
 
-    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
-    public void testSetFirstName(Woman woman){
-        woman.setFirstName(woman.getFirstName());
-        Assert.assertEquals(woman.getFirstName(),woman.getFirstName(), format("This Woman have incorrect firstname. " + "The firstname should be " + woman.getFirstName()));
+    @Test
+    public void testSetFirstName(){
+        String[] firstNames = {"John", "Jane", "David", "Emily", "Michael"};
+        Random random = new Random();
+        String randomFirstNames = firstNames[random.nextInt(firstNames.length)];
+        woman.setFirstName(randomFirstNames);
+        Assert.assertEquals(woman.getFirstName(),randomFirstNames, format("This Woman have incorrect firstname. " + "The firstname should be " + randomFirstNames));
     }
-    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
-    public void testSetLastName(Woman woman){
-        woman.setLastName(woman.getLastName()); ;
-        Assert.assertEquals(woman.getLastName(), woman.getLastName(), format("This Woman have incorrect lastname. " + "The lastname should be " + woman.getLastName()));
+    @Test
+    public void testSetLastName(){
+        String[] lastNames = {"Cook","Mickle","Green","Jones","mazafaka"};
+        Random random = new Random();
+        String randomLastNames = lastNames[random.nextInt(lastNames.length)];
+        woman.setLastName(randomLastNames) ;
+        Assert.assertEquals(woman.getLastName(), randomLastNames, format("This Woman have incorrect lastname. " + "The lastname should be " + randomLastNames));
     }
-    @Test (dataProvider = "dataWoman", dataProviderClass = TestDataProvider.class)
-    public void  testSetAge(Woman woman) {
-        woman.setAge(woman.getAge());
-        Assert.assertEquals(woman.getAge(), woman.getAge(), "This Woman have incorrect age");
+    @Test
+    public void  testSetAge() {
+        int newAge = new Random().nextInt(100);
+        woman.setAge(newAge);;
+        Assert.assertEquals(woman.getAge(), newAge, "This Woman have incorrect age");
 
     }
 }

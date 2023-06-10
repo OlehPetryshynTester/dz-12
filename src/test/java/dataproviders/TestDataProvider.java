@@ -41,5 +41,59 @@ private static final String NAMEMANPATH = "src/test/resources/dataNameMan.csv";
     public static Object[] verifyDataWoman() {
         return getListObjectsFromCsv(RETIRED_WOMEN_PATH, PersonDataWoman.class).stream().map(personWoman -> new Woman(personWoman.getFirstName(), personWoman.getLastName(), personWoman.getAge())).toArray(Woman[]::new);
     }
+    @DataProvider(name = "womanDataProviderAge")
+    public static Object[][] womanDataProviderAge() {
+        return new Object[][]{
+                {new Woman("Jane", "Doe", 43), 43},
+                {new Woman("Mary", "Smith", 45), 45}
+                // Додайте додаткові тестові дані, які потрібно перевірити
+        };
 
+    }
+    @DataProvider(name = "womanDataProviderFirstName")
+    public static Object[][] womanDataProviderFirstname() {
+        return new Object[][]{
+                {new Woman("Jane", "Doe", 60), "Jane"},
+                {new Woman("Mary", "Smith", 70), "Mary"}
+                // Додайте додаткові тестові дані, які потрібно перевірити
+        };
+
+    }
+    @DataProvider(name = "womanDataProviderLastName")
+    public static Object[][] womanDataProviderLast() {
+        return new Object[][]{
+                {new Woman("Jones", "Doe", 60), "Doe"},
+                {new Woman("Tom", "Smith", 70), "Smith"}
+                // Додайте додаткові тестові дані, які потрібно перевірити
+        };
+
+    }
+
+    @DataProvider(name = "manDataProviderAge")
+    public static Object[][] manDataProviderAge() {
+        return new Object[][]{
+                {new Man("Jones", "Doe", 60), 60},
+                {new Man("Tom", "Smith", 70), 70}
+                // Додайте додаткові тестові дані, які потрібно перевірити
+        };
+
+    }
+    @DataProvider(name = "manDataProviderLastName")
+    public static Object[][] manDataProviderLastName() {
+        return new Object[][]{
+                {new Man("Jones", "Doe", 60), "Doe"},
+                {new Man("Tom", "Smith", 70), "Smith"}
+                // Додайте додаткові тестові дані, які потрібно перевірити
+        };
+
+    }
+    @DataProvider(name = "manDataProviderFirstName")
+    public static Object[][] manDataProviderFirstName() {
+        return new Object[][]{
+                {new Man("Jones", "Doe", 60), "Jones"},
+                {new Man("Tom", "Smith", 70), "Tom"}
+                // Додайте додаткові тестові дані, які потрібно перевірити
+        };
+
+    }
 }
